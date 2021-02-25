@@ -1,0 +1,38 @@
+@import "../../Settings.scss";
+
+.Header {
+  color: transparent;
+  height: 1rem + $header-height;
+  transition: all 0.3s;
+  padding: 1rem $header-padding 0;
+  display: grid;
+  grid-template-columns: auto auto;
+  background-color: $primary-color;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+
+  &.fixed {
+    animation: pullDown 0.5s ease-in;
+    position: fixed;
+    padding-top: 0;
+    height: $header-height;
+  }
+
+  .icon-Integra_Logo {
+    color: $white;
+    font-size: 5rem;
+    @include clean-icon;
+  }
+}
+
+@keyframes pullDown {
+  0% {
+    transform: translateY(-$header-height - 1rem);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}

@@ -1,0 +1,125 @@
+$primary-color: #003b8e;
+$accent-color: #3498db;
+$dark-gray: #5d5d5d;
+$white: #def2f1;
+$light-gray: #a2a2a2;
+
+$header-padding: 1rem;
+$header-height: 5.1875rem;
+
+$min-tablet-width: 768px;
+$max-tablet-width: 1023px;
+$min-tablet-height: 1024px;
+
+$min-desktop-width: 1024px;
+$max-desktop-width: 1919px;
+
+$min-hdpi-width: 1920px;
+
+$InHotelAz: ($primary-color, $accent-color);
+
+
+@mixin on-tablet() {
+  @media (min-width: $min-tablet-width) and (orientation: portrait) {
+    @content;
+  }
+}
+
+@mixin place-holder-message {
+  display: grid;
+  grid-template-rows: 50% 50%;
+  padding: 1rem 1rem 0;
+
+  .title {
+    align-self: end;
+    margin: 0 auto;
+  }
+
+  .message {
+    align-self: start;
+    margin: 0 auto;
+  }
+}
+
+@mixin vertically-center-content {
+  display: grid;
+  align-items: center;
+}
+
+@mixin clean-icon {
+  display: inline-block;
+
+  &::before {
+    display: block;
+  }
+}
+
+@mixin custom-checkbox(
+  $width: 24px,
+  $height: 24px,
+  $animation-time: 0.2s,
+  $border-width: 3px,
+  $border-color: $primary-color,
+  $checked-border-color: $primary-color,
+  $checked-background-color: $primary-color,
+  $tick-border-width: 2px,
+  $tick-border-color: $accent-color,
+  $tick-border: 3px,
+  $checked-text-color: $primary-color
+) {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+
+  input {
+    position: absolute;
+    opacity: 0;
+
+    & ~ span {
+      transition: all $animation-time;
+      user-select: none;
+    }
+  }
+
+  .styled-checkbox {
+    display: inline-block;
+    width: $width;
+    height: $height;
+    border: $border-width solid $border-color;
+    border-radius: 5px;
+    transition: all $animation-time ease-in-out;
+    margin-right: 5px;
+
+    &::after {
+      $check-height: $height / 2;
+      $check-width: $width / 4;
+
+      content: "";
+      transition: all $animation-time ease-in-out;
+      position: absolute;
+      left: $width / 2 - $check-width / 2 - $tick-border-width / 2;
+      top: $height / 2 - $check-height / 2 - $tick-border-width / 2 - 1.6px;
+      transform: rotate(45deg) scale(0);
+      width: $check-width;
+      height: $check-height;
+      border: solid $tick-border-color;
+      border-width: 0 $tick-border-width $tick-border-width 0;
+    }
+  }
+
+  input:checked ~ {
+    span {
+      color: $checked-text-color;
+    }
+
+    .styled-checkbox {
+      background-color: $checked-background-color;
+      border-color: $checked-border-color;
+
+      &::after {
+        transform: rotate(45deg) scale(1);
+      }
+    }
+  }
+}

@@ -1,26 +1,35 @@
-import React from 'react';
+import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.scss';
+import Header from './components/Header';
+import './assets/fonts/inhys_font/css/Inhys.css'
+import './main.scss';
+import Navbar from './components/Navbar/Navbar';
+import SectionCards from './components/SectionCards/SectionCards';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+interface IState {
+  resultmenu: boolean;
+}
+
+const defaultState: IState = {
+  resultmenu: false
+};
+
+class App extends Component<{}, IState> {
+  state = defaultState;
+  
+  getCallback(resultmenu: boolean) {
+    this.setState({ resultmenu });
+  }
+  render(){
+    return (
+      <div className="App">
+        <Navbar></Navbar>
+        <SectionCards></SectionCards>
+      </div>
+    );
+  }
+  
 }
 
 export default App;
