@@ -23,12 +23,12 @@ class SectionCards extends Component<IProps, IState> {
                     <div className="row">
                         <div className="timeline-blog overflow padding-top">
                             <div className="timeline-date text-center">
-                                <a href="#" className="btn btn-common uppercase">November 2013</a>
+                                <a href="#" className="btn-common uppercase">November 2013</a>
                             </div>
                             <div className="timeline-divider overflow padding-bottom">
-                                <Card class={"card arrow-left wow fadeInLeft"}></Card>
-                                <Card class={"card arrow-right wow fadeInLeft"}></Card>
-                                <Card class={"card arrow-left wow fadeInLeft"}></Card>
+                                <Card class={"card arrow-left"}></Card>
+                                <Card class={"card arrow-right"}></Card>
+                                <Card class={"card arrow-left"}></Card>
                             </div>
                             
                         </div>

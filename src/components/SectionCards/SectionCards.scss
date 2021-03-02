@@ -1,5 +1,6 @@
 .padding-bottom{
     padding-bottom: 65px;
+    padding-top: 40px;
   }
 .container{
     padding-right: 15px;
@@ -8,7 +9,7 @@
     margin-right: auto;
     max-width: 100%;
     @media (min-width: 768px){
-        width: 750px;
+        width: 90%;
     }
 }
 .row{
@@ -29,7 +30,19 @@
     border-radius: 0;
     padding: 17px 40px;
   }
-
+  .btn-common{
+    font-size: 14px;
+    color: #0099ae;
+    border: 1px solid #0099ae;
+    display: inline-block;
+    margin-bottom: 0;
+    line-height: 1.4;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    touch-action: manipulation;
+    cursor: pointer;
+  }
 
 .timeline-divider{
     position: relative;
@@ -52,3 +65,9 @@
   .padding-bottom{
     padding-bottom: 65px;
   }
+.overflow{
+  overflow: hidden;
+}
+.text-center{
+  text-align: center;
+}
