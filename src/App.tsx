@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './App.scss';
-import Header from './components/Header';
 import './assets/fonts/inhys_font/css/Inhys.css'
 import './main.scss';
 import Navbar from './components/Navbar/Navbar';
 import SectionCards from './components/SectionCards/SectionCards';
+import Blog from './components/Blog/Blog';
 
 interface IState {
   resultmenu: boolean;
@@ -24,8 +24,13 @@ class App extends Component<{}, IState> {
   render(){
     return (
       <div className="App">
-        <Navbar></Navbar>
-        <SectionCards></SectionCards>
+        <Navbar/>
+        <BrowserRouter>
+          <Switch>
+            <Route exact path="/" component={SectionCards}></Route>
+            <Route exact path="/blog" component={Blog}></Route>    
+          </Switch>
+        </BrowserRouter>
       </div>
     );
   }
