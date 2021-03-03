@@ -24,33 +24,3 @@ body {
   }
 }
 
-
-@include on-tablet() {
-  html {
-    font-size: 20px;
-  }
-}
-
-@media (min-width: $min-hdpi-width) {
-  html {
-    font-size: 22px;
-  }
-}
-
-@media (min-width: $min-tablet-width) {
-  h4 {
-    font-size: 2rem;
-  }
-
-  h3 {
-    font-size: 3rem;
-  }
-
-  h2 {
-    font-size: 3.5rem;
-  }
-
-  h1 {
-    font-size: 4rem;
-  }
-}
