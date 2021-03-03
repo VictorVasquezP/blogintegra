@@ -18,7 +18,7 @@ interface IState {
   const Items = [
       {
           title : 'Home',
-          url: '#',
+          url: '/',
           cName: 'nav-links',
           key:1
       },
