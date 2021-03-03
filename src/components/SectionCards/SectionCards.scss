@@ -1,73 +1,62 @@
 .padding-bottom{
     padding-bottom: 65px;
     padding-top: 40px;
-  }
-.container{
-    padding-right: 15px;
-    padding-left: 15px;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 100%;
-    @media (min-width: 768px){
-        width: 90%;
+      .container{
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 100%;
+        @media (min-width: 768px){
+            width: 90%;
+        }
+        
+      .row{
+        margin-right: -15px;
+        margin-left: -15px;
+
+        .timeline-blog {
+          overflow: hidden;
+
+          .timeline-date{
+            text-align: center;
+            .btn-common{
+              font-size: 18px;
+              font-weight: 300;
+              border-radius: 0;
+              padding: 17px 40px;
+              font-size: 14px;
+              color: #0099ae;
+              border: 1px solid #0099ae;
+              display: inline-block;
+              margin-bottom: 0;
+              line-height: 1.4;
+              text-align: center;
+              text-transform: uppercase;
+              white-space: nowrap;
+              vertical-align: middle;
+              touch-action: manipulation;
+              cursor: pointer;
+            }
+          }
+          
+          .timeline-divider{
+            position: relative;
+            padding-top: 50px;
+            overflow: hidden;
+            &:before{
+              position: absolute;
+              top: 0;
+              content: "";
+              border-left-style: solid;
+              border-left-width: 1px;
+              height: 100%;
+              border-left-color: #0099AE;
+              left: 50%;
+              margin-left: -2px;
+          }
+        }
+      }
     }
-}
-.row{
-    margin-right: -15px;
-    margin-left: -15px;
-}
-
-
-.timeline-blog .col-sm-6.padding-top{
-    padding-top: 70px;
   }
-
-
-.timeline-date .btn-common{
-    font-size: 18px;
-    color: #4a4a4a;
-    font-weight: 300;
-    border-radius: 0;
-    padding: 17px 40px;
-  }
-  .btn-common{
-    font-size: 14px;
-    color: #0099ae;
-    border: 1px solid #0099ae;
-    display: inline-block;
-    margin-bottom: 0;
-    line-height: 1.4;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    touch-action: manipulation;
-    cursor: pointer;
-  }
-
-.timeline-divider{
-    position: relative;
-    padding-top: 50px;
-  }
-  
-  .timeline-divider:before{
-    position: absolute;
-    top: 0;
-    content: "";
-    border-left-style: solid;
-    border-left-width: 1px;
-    height: 100%;
-    border-left-color: #0099AE;
-    left: 50%;
-    margin-left: -2px;
-  }
-
-
-  .padding-bottom{
-    padding-bottom: 65px;
-  }
-.overflow{
-  overflow: hidden;
-}
-.text-center{
-  text-align: center;
 }
