@@ -62,9 +62,10 @@ class Blog extends Component<BlogProps, BlogState> {
                         </div>
                     </div>
                 </div>
+                <div></div>
                 <div className="post-sidebar">
                     <div className="sidebar-item  recent last-posted">
-                        <h3>Últimos artículos</h3>
+                        <h3 style={{color:'#fff',fontSize:24}}>Últimos artículos</h3>
                         <div className="media">
                             <div className="pull-left">
                                 <a href="#"><img src={lastNewsImg} alt=""/></a>
@@ -94,7 +95,7 @@ class Blog extends Component<BlogProps, BlogState> {
                         </div>
                     </div>
                      <div className="sidebar-item categories">
-                        <h3>Categories</h3>
+                        <h3 style={{color:'#fff', fontSize:24}}>Categories</h3>
                         <ul className="nav navbar-stacked">
                             <li><a href="#">Lorem ipsum</a></li>
                             <li><a href="#">Adipisicing elit</a></li>

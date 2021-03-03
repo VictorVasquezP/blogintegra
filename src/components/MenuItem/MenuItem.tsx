@@ -17,11 +17,12 @@ interface IState {
 
   const Items = [
       {
-          title : 'Home',
+          title : 'Blog',
           url: '/',
           cName: 'nav-links',
           key:1
-      },
+      }
+      /*,
       {
         title : 'Services',
         url: '#',
@@ -40,6 +41,7 @@ interface IState {
         cName: 'nav-links',
         key:4
     }
+    */
   ]
     
 class MenuItem extends React.Component<IProps, IState> {
