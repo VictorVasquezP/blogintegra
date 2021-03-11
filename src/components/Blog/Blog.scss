@@ -1,7 +1,6 @@
 .blog-container{
     display: grid;
     grid-template-columns: 75% 25%;
-    padding-left: 2em;
     padding-right: 0em;
     
     .post-content{
@@ -41,14 +40,43 @@
         top:10vh;
         height:90vh;
         h3{
-            font-size: 18px;
+            font-size: 24px;
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+            color: #fff;
         }
 
         .last-posted{
             background-color: rgba(0, 0, 0, 0.2);
-            padding: 1em;
+            height: 320px;
+            padding: 0.5em;
+          }
+          
         }
+        
+    .media-container{
+      overflow-y: scroll;
+      height: 230px;
+    }
+    
+    .categories-container{
+      overflow-y: scroll;
+      height: 150px;
+    }
 
+    .post-sidebar .last-posted .media-container::-webkit-scrollbar,
+    .post-sidebar .categories .categories-container::-webkit-scrollbar {
+      width: 12px;
+    }
+    .post-sidebar .last-posted .media-container::-webkit-scrollbar-track,
+    .post-sidebar .categories .categories-container::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+        border-radius: 10px;
+    }
+    .post-sidebar .last-posted .media-container::-webkit-scrollbar-thumb,
+    .post-sidebar .categories .categories-container::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background: #d1d1d1;
     }
 
     .sidebar-item .media{
@@ -99,6 +127,10 @@
         -moz-transition: all 0.3s ease 0s;
         -webkit-transition: all 0.3s ease 0s;
         -o-transition: all 0.3s ease 0s;
+      }
+
+      .response-area{
+        padding: 0 2em;
       }
   
       .response-area h2 {
@@ -210,6 +242,9 @@
       color: #C03035;
     }
   
+    .categories{
+      padding: 0.5em;
+    }
     
   .categories .navbar-stacked li {
       border-bottom: 1px solid #ececec;
@@ -295,8 +330,12 @@
       }
 
       .post-sidebar{
+        position: static;
+        width: 100%;
+        height: 100%;
         grid-column: 1/2;
-        grid-row: 2/3;
+        grid-row: 3/4;
+        padding-bottom: 1em;
       }
 
       .sidebar-item .media .media-body h4 {
@@ -313,6 +352,14 @@
         .media-body{
           padding-left: 0;
         }
+      }
+
+      .response-area{
+        margin-top: 1em;
+      }
+
+      .categories{
+        padding: 1em;
       }
     }
 }

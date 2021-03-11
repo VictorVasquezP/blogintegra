@@ -65,14 +65,15 @@ class Blog extends Component<BlogProps, BlogState> {
                 <div></div>
                 <div className="post-sidebar">
                     <div className="sidebar-item  recent last-posted">
-                        <h3 style={{color:'#fff',fontSize:24}}>Últimos artículos</h3>
+                        <h3>Últimos artículos</h3>
+                        <div className="media-container">
                         <div className="media">
                             <div className="pull-left">
                                 <a href="#"><img src={lastNewsImg} alt=""/></a>
                             </div>
                             <div className="media-body">
                                 <h4><a href="#">Lorem ipsum dolor sit amet consectetur adipisicing elit,</a></h4>
-                                <p>posted on  07 March 2014</p>
+                                <p>07 March 2014</p>
                             </div>
                         </div>
                         <div className="media">
@@ -81,7 +82,7 @@ class Blog extends Component<BlogProps, BlogState> {
                             </div>
                             <div className="media-body">
                                 <h4><a href="#">Lorem ipsum dolor sit amet consectetur adipisicing elit,</a></h4>
-                                <p>posted on  07 March 2014</p>
+                                <p>07 March 2014</p>
                             </div>
                         </div>
                         <div className="media">
@@ -90,44 +91,24 @@ class Blog extends Component<BlogProps, BlogState> {
                             </div>
                             <div className="media-body">
                                 <h4><a href="#">Lorem ipsum dolor sit amet consectetur adipisicing elit,</a></h4>
-                                <p>posted on  07 March 2014</p>
+                                <p>07 March 2014</p>
                             </div>
+                        </div>
                         </div>
                     </div>
                      <div className="sidebar-item categories">
-                        <h3 style={{color:'#fff', fontSize:24}}>Categories</h3>
-                        <ul className="nav navbar-stacked">
-                            <li><a href="#">Lorem ipsum</a></li>
-                            <li><a href="#">Adipisicing elit</a></li>
-                            <li><a href="#">Sed do</a></li>
-                            <li><a href="#">Eiusmod</a></li>
-                            <li><a href="#">Mockup</a></li>
-                            <li><a href="#">Ut enim ad minim</a></li>
-                            <li><a href="#">Veniam, quis nostrud</a></li>
-                        </ul>
-                    </div>
-                    {/*<div className="sidebar-item tag-cloud">
-                        <h3>Tag Cloud</h3>
-                        <ul className="nav nav-pills">
-                            <li><a href="#">Corporate</a></li>
-                            <li><a href="#">Joomla</a></li>
-                            <li><a href="#">Abstract</a></li>
-                            <li><a href="#">Creative</a></li>
-                            <li><a href="#">Business</a></li>
-                            <li><a href="#">Product</a></li>
-                        </ul>
-                    </div>
-                    <div className="sidebar-item popular">
-                            <h3>Latest Photos</h3>
-                            <ul className="gallery">
-                                <li><a href="#"><img src="images/portfolio/popular1.jpg" alt=""/></a></li>
-                                <li><a href="#"><img src="images/portfolio/popular2.jpg" alt=""/></a></li>
-                                <li><a href="#"><img src="images/portfolio/popular3.jpg" alt=""/></a></li>
-                                <li><a href="#"><img src="images/portfolio/popular4.jpg" alt=""/></a></li>
-                                <li><a href="#"><img src="images/portfolio/popular5.jpg" alt=""/></a></li>
-                                <li><a href="#"><img src="images/portfolio/popular1.jpg" alt=""/></a></li>
+                        <h3 style={{color:'#fff', fontSize:24}}>Categorias</h3>
+                        <div className="categories-container">
+                            <ul className="nav navbar-stacked">
+                                <li><a href="#">Lorem ipsum</a></li>
+                                <li><a href="#">Adipisicing elit</a></li>
+                                <li><a href="#">Sed do</a></li>
+                                <li><a href="#">Eiusmod</a></li>
+                                <li><a href="#">Mockup</a></li>
                             </ul>
-                        </div> */}
+                        </div>
+                    </div>
+                  
                 </div>
                 <div className="response-area">
                             <h2 className="bold">Comentarios</h2>

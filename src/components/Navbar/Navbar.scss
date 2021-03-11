@@ -12,6 +12,7 @@
     transition: all 0.3s;
     padding: 1rem $header-padding;
     position: fixed;
+    z-index: 10000;
 
     &.fixed {
         animation: pullDown 0.5s ease-in;
