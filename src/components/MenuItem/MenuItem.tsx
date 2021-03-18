@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import "./MenuItem.scss";
 
 interface IState {
@@ -21,6 +22,12 @@ interface IState {
           url: '/',
           cName: 'nav-links',
           key:1
+      },
+      {
+        title : 'Log In',
+        url: '/Login',
+        cName: 'nav-links',
+        key:2
       }
       /*,
       {
@@ -52,11 +59,7 @@ class MenuItem extends React.Component<IProps, IState> {
                 {Items.map((item) => {
                     return(
                         <li key={item.key}>
-                            <a 
-                                href={item.url} 
-                                className={item.cName}>
-                                {item.title}
-                            </a>
+                            <a href={item.url} className={item.cName}>{item.title}</a>
                         </li>
                     )
                 } )}

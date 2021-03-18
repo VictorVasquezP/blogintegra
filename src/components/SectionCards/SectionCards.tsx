@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Card from '../Card';
+import Navbar from '../Navbar';
 
 import './SectionCards.scss';
 
@@ -18,6 +19,8 @@ class SectionCards extends Component<IProps, IState> {
     state = defaultState;
     render() {
         return (
+            <>
+            <Navbar/>
             <div className="padding-bottom">
                 <div className="container">
                     <div className="row">
@@ -30,11 +33,11 @@ class SectionCards extends Component<IProps, IState> {
                                 <Card class={"card arrow-right"}></Card>
                                 <Card class={"card arrow-left"}></Card>
                             </div>
-                            
                         </div>
                     </div>
                 </div>
             </div>
+            </>
         );
     }
 }

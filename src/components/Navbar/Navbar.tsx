@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import MenuItem from "../MenuItem";
 import "./Navbar.scss";
 
@@ -26,7 +27,7 @@ class Navbar extends React.Component<IProps, IState> {
     render(){
         return(
             <nav className="NavbarItems">
-                <a className="icon-Integra_Logo" href="/"></a>
+                <a href="/" className="icon-Integra_Logo"></a>
                 <div className="menu-icon" onClick={this.handleClick}>
                     <i className={this.state.clicked ? 'fas fa-times' : 'fas fa-bars'}></i>
                 </div>

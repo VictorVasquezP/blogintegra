@@ -6,6 +6,7 @@ import './main.scss';
 import Navbar from './components/Navbar/Navbar';
 import SectionCards from './components/SectionCards/SectionCards';
 import Blog from './components/Blog/Blog';
+import Login from './components/Login/Login';
 
 interface IState {
   resultmenu: boolean;
@@ -18,23 +19,29 @@ const defaultState: IState = {
 class App extends Component<{}, IState> {
   state = defaultState;
   
-  getCallback(resultmenu: boolean) {
-    this.setState({ resultmenu });
+  getCallbackLogin(user: string, pass: string) {
+    console.log("App: {"+user+","+pass+"}");
+  }
+  getCallbackRegister(name: string,email:string,pass: string,hotel:boolean, restaurante:boolean,facturacion:boolean) {
+    console.log("App: {"+name+","+email+",...}");
   }
   render(){
     return (
       <div className="App">
-        <Navbar/>
         <BrowserRouter>
           <Switch>
             <Route exact path="/" component={SectionCards}></Route>
             <Route exact path="/blog" component={Blog}></Route>    
+            <Route exact path="/Login" render={() => <Login 
+                                                      getCallbackLogin={this.getCallbackLogin.bind(this)}
+                                                      getCallbackRegister={this.getCallbackRegister.bind(this)}>
+                                                    </Login> } >
+            </Route>   
           </Switch>
         </BrowserRouter>
       </div>
     );
   }
-  
 }
 
 export default App;
