@@ -3,6 +3,7 @@ import './Blog.scss';
 import mainImg from  './../../assets/img/7.jpg';
 import lastNewsImg from './../../assets/img/project1.jpg';
 import authorImg from './../../assets/img/1.png';
+import Navbar from '../Navbar';
 
 export interface BlogProps {
     
@@ -16,6 +17,8 @@ class Blog extends Component<BlogProps, BlogState> {
     state = {  }
     render() { 
         return ( 
+            <>
+            <Navbar/>
             <div className="blog-container">
                 <div className="post-content">
                     <div className="post-header">
@@ -144,6 +147,7 @@ class Blog extends Component<BlogProps, BlogState> {
                             </ul>                   
                         </div>
             </div>
+            </>
         );
     }
 }
