@@ -14,7 +14,21 @@ export interface BlogState {
 }
  
 class Blog extends Component<BlogProps, BlogState> {
-    state = {  }
+    state = { 
+        commentarios: [],
+        text: ''
+    }
+
+    handleSubmit(){
+        return(e: React.FormEvent) =>{
+            e.preventDefault();
+        }
+    }
+    
+    public componentDidMount(){
+        
+    }
+
     render() { 
         return ( 
             <>
@@ -37,20 +51,6 @@ class Blog extends Component<BlogProps, BlogState> {
 
                         There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. 
                         </p>
-                        {/* <div className="post-bottom overflow">
-                            <ul className="nav navbar-nav post-nav">
-                                <li><a href="#"><i className="fa fa-tag"></i>Creative</a></li>
-                                <li><a href="#"><i className="fa fa-heart"></i>32 Love</a></li>
-                                <li><a href="#"><i className="fa fa-comments"></i>3 Comments</a></li>
-                            </ul>
-                        </div> */}
-                        {/* <div className="blog-share">
-                            <span className='st_facebook_hcount'></span>
-                            <span className='st_twitter_hcount'></span>
-                            <span className='st_linkedin_hcount'></span>
-                            <span className='st_pinterest_hcount'></span>
-                            <span className='st_email_hcount'></span>
-                        </div> */}
                         <div className="author-profile padding">
                             <div className="row">
                                 <div className="col-sm-2">
@@ -115,6 +115,18 @@ class Blog extends Component<BlogProps, BlogState> {
                 </div>
                 <div className="response-area">
                             <h2 className="bold">Comentarios</h2>
+                            <form onSubmit={this.handleSubmit()}>
+                                <textarea name="comentario" id="comentario" 
+                                rows={5} style={{width:'100%'}} placeholder='Escribe tu comentario'
+                                value={this.state.text}
+                                onChange={text => this.setState({text: text})}>
+                                </textarea>
+                                <button type="submit" style={{position: 'relative', padding: '5px 20px',
+                                display: 'inline-block',
+                                textDecoration: 'none',
+                                color: '#ffffff',
+                                background: '#111111'}}>Enviar</button>
+                            </form>
                             <ul className="media-list">
                                 <li className="media">
                                     <div className="post-comment">
