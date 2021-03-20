@@ -7,6 +7,7 @@ import Navbar from './components/Navbar/Navbar';
 import SectionCards from './components/SectionCards/SectionCards';
 import Blog from './components/Blog/Blog';
 import Login from './components/Login/Login';
+var usuarioModel = require('../server/models/usuario');
 
 interface IState {
   resultmenu: boolean;
@@ -17,6 +18,12 @@ const defaultState: IState = {
 };
 
 class App extends Component<{}, IState> {
+
+  componentDidMount (){
+    console.log("usuarios..."+ usuarioModel.getUsuarios());
+    
+  }
+
   state = defaultState;
   
   getCallbackLogin(user: string, pass: string) {

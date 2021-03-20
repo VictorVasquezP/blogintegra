@@ -1,10 +1,10 @@
-import { Pool, QueryResult } from 'pg';
+const postgres = require('pg');
 
-const connection = new Pool({
+const connection = new postgres.Pool({
     user: "postgres",
     host: "localhost",  
     database: "blog_integra",
-    password: "12890",
+    password: "123",
     port: 5432
 });
 
@@ -12,7 +12,7 @@ const getConnection = () => {
     return connection;
 }
 
-export const getTable = async () => {
+const getTable = async () => {
     try {
         const conx = await getConnection();
         const result = await conx.query(
@@ -24,7 +24,7 @@ export const getTable = async () => {
     }
 }
 
-export const insertUsuario = async (usuario: string, correo: string, password: string) => {
+const insertUsuario = async (usuario, correo, password) => {
     try{
         const conx = await getConnection();
         const consulta = await conx.query(
@@ -35,7 +35,7 @@ export const insertUsuario = async (usuario: string, correo: string, password: s
     }
 }
 
-export const login = async (correo: string , password: string) => {
+const login = async (correo, password) => {
     const conx = await getConnection();
     const consulta = await conx.query(
         `select count(id) as exist from usuario
@@ -44,7 +44,7 @@ export const login = async (correo: string , password: string) => {
     return parseInt(consulta.rows[0].exist) !== 0;
 }
 
-export const insertComentario = async (c: any) => {
+const insertComentario = async c => {
     try{
         const conx = await getConnection();
         const consulta = await conx.query(
@@ -55,13 +55,13 @@ export const insertComentario = async (c: any) => {
     }
 }
 
-export const getComentarios = async (idBlog: number)=>{
+exports.getComentarios = async idBlog =>{
     try {
-        const conx = getConnection();
-        const result = conx.query(
+        const conx = await getConnection();
+        const result = await conx.query(
         "SELECT * FROM comentario WHERE id_blo = " + idBlog
         );
-        return (await result).rows;
+        return result.rows;
     } catch (error) {
         console.log(error);
     }
