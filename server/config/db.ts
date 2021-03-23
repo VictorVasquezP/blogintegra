@@ -1,10 +1,11 @@
-const postgres = require('pg');
 
-const connection = new postgres.Pool({
+const pg = require('pg');
+
+const connection = new pg.Pool({
     user: "postgres",
     host: "localhost",  
     database: "blog_integra",
-    password: "12890",
+    password: "123",
     port: 5432
 });
 
@@ -12,7 +13,8 @@ const getConnection = () => {
     return connection;
 }
 
-const getTable = async () => {
+export const getTable = async () => {
+    console.log("function getTable");
     try {
         const conx = await getConnection();
         const result = await conx.query(
@@ -24,7 +26,7 @@ const getTable = async () => {
     }
 }
 
-const insertUsuario = async (usuario, correo, password) => {
+export const insertUsuario = async (usuario: string, correo: string, password: string) => {
     try{
         const conx = await getConnection();
         const consulta = await conx.query(
@@ -35,7 +37,7 @@ const insertUsuario = async (usuario, correo, password) => {
     }
 }
 
-const login = async (correo, password) => {
+export const login = async (correo: string , password: string) => {
     const conx = await getConnection();
     const consulta = await conx.query(
         `select count(id) as exist from usuario
@@ -44,7 +46,7 @@ const login = async (correo, password) => {
     return parseInt(consulta.rows[0].exist) !== 0;
 }
 
-const insertComentario = async c => {
+export const insertComentario = async (c: any) => {
     try{
         const conx = await getConnection();
         const consulta = await conx.query(
@@ -55,13 +57,13 @@ const insertComentario = async c => {
     }
 }
 
-exports.getComentarios = async idBlog =>{
+export const getComentarios = async (idBlog: number)=>{
     try {
-        const conx = await getConnection();
-        const result = await conx.query(
+        const conx = getConnection();
+        const result = conx.query(
         "SELECT * FROM comentario WHERE id_blo = " + idBlog
         );
-        return result.rows;
+        return (await result).rows;
     } catch (error) {
         console.log(error);
     }

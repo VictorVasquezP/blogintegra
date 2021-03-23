@@ -99,9 +99,6 @@ class Login extends Component<IProps, IState> {
                                     <label htmlFor="pass" className="label">Contraseña</label>
                                     <input id="pass" type="password" className="input" data-type="password" onChange={(pass) => {this.setState({passwordRegister:pass.target.value})}} />
                                 </div>
-                                <div className="group">
-                                    <input type="submit" className="button" value="Registrar" onClick={this.register} />
-                                </div>
                                 <hr/>
                                 <p className="preferences">Preferencias</p>
                                 <div className="group">
@@ -122,6 +119,10 @@ class Login extends Component<IProps, IState> {
                                         <span className="icon"></span> Facturación
                                     </label>
                                 </div>
+                                <div className="group">
+                                    <input type="submit" className="button" value="Registrar" onClick={this.register} />
+                                </div>
+                                
                             </div>
                         </div>
                     </div>

@@ -17,6 +17,12 @@ const defaultState: IState = {
 };
 
 class App extends Component<{}, IState> {
+
+  componentDidMount (){
+    fetch('/')
+    .then((response) => console.log(response));
+  }
+
   state = defaultState;
   
   getCallbackLogin(user: string, pass: string) {
