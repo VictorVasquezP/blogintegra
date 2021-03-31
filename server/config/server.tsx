@@ -1,1 +1,0 @@
-import { getTable } from './db';

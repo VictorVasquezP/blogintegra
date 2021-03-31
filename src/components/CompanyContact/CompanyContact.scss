@@ -1,0 +1,65 @@
+@import "../../Settings.scss";
+
+.contact {
+  display: grid;
+  padding: 1rem;
+  text-align: justify;
+
+  .left-description {
+    padding: 1rem;
+    justify-self: center;
+
+    h3 {
+      font-size: 2rem;
+      text-align: center;
+    }
+  }
+
+  .right-contact {
+    padding: 2rem 1rem;
+    text-align: center;
+    justify-self: center;
+    h5 {
+      font-size: 1rem;
+    }
+
+    div {
+      display: inline-flex;
+    }
+
+    i {
+      transform: translateX(-10px);
+      margin-block-start: 1.67em;
+      margin-block-end: 1.67em;
+    }
+  }
+}
+
+@media (min-width: $min-tablet-width) {
+  .contact {
+    text-align: center;
+  }
+}
+
+@media (min-width: $min-desktop-width) {
+  .contact {
+    grid-template-columns: auto auto;
+    text-align: justify;
+
+    .left-description {
+      justify-self: left;
+
+      h3 {
+        text-align: left;
+        margin: 0;
+      }
+    }
+
+    .right-contact {
+      align-items: center;
+      text-align: right;
+      justify-self: right;
+      justify-items: center;
+    }
+  }
+}
