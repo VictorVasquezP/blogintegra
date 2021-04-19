@@ -1,0 +1,33 @@
+@import "../../Settings.scss";
+
+.social-network {
+  font-size: 1.8rem;
+  margin: auto;
+  text-align: center;
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+
+  .social-link {
+    padding: 1rem;
+
+    @include clean-icon;
+  }
+}
+
+@media (min-width: $min-desktop-width) {
+  .social-network {
+    font-size: 2rem;
+    width: 50%;
+    padding: 0;
+
+    a {
+      padding: 3rem;
+    }
+  }
+}
+
+@media (min-width: $min-tablet-width) {
+  .social-network {
+    width: 50%;
+  }
+}

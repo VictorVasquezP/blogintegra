@@ -1,23 +1,27 @@
 import React, { Component }  from 'react';
+import axios, { AxiosRequestConfig } from 'axios';
 import './Blog.scss';
 import mainImg from  './../../assets/img/7.jpg';
 import lastNewsImg from './../../assets/img/project1.jpg';
 import authorImg from './../../assets/img/1.png';
 import Navbar from '../Navbar';
+import Footer from '../Footer';
+import { transform } from 'typescript';
 
 export interface BlogProps {
     
 }
  
 export interface BlogState {
-    
+    comentarios: [];
+    texto: string;
 }
  
 class Blog extends Component<BlogProps, BlogState> {
-    state = { 
-        commentarios: [],
-        text: ''
-    }
+    state: BlogState = {
+        comentarios: [],
+        texto: ''
+    };
 
     handleSubmit(){
         return(e: React.FormEvent) =>{
@@ -25,8 +29,15 @@ class Blog extends Component<BlogProps, BlogState> {
         }
     }
     
-    public componentDidMount(){
-        
+    componentDidMount(){
+        this.getComentarios();
+    }
+
+    getComentarios = () =>{
+        axios.get('http://localhost:3001/api/comment/' + 2)
+        .then(res =>{
+            this.setState({comentarios: res.data})
+        })
     }
 
     render() { 
@@ -115,18 +126,16 @@ class Blog extends Component<BlogProps, BlogState> {
                 </div>
                 <div className="response-area">
                             <h2 className="bold">Comentarios</h2>
-                            <form onSubmit={this.handleSubmit()}>
-                                <textarea name="comentario" id="comentario" 
-                                rows={5} style={{width:'100%'}} placeholder='Escribe tu comentario'
-                                value={this.state.text}
-                                onChange={text => this.setState({text: text})}>
-                                </textarea>
-                                <button type="submit" style={{position: 'relative', padding: '5px 20px',
-                                display: 'inline-block',
-                                textDecoration: 'none',
-                                color: '#ffffff',
-                                background: '#111111'}}>Enviar</button>
-                            </form>
+                            <textarea name="comentario" id="comentario" 
+                            rows={5} style={{width:'100%'}} placeholder='Escribe tu comentario'
+                            value={this.state.texto}
+                            onChange={e => this.setState({texto: e.target.value})}>
+                            </textarea>
+                            <button type="submit" style={{position: 'relative', padding: '5px 20px',
+                            display: 'inline-block',
+                            textDecoration: 'none',
+                            color: '#ffffff',
+                            background: '#111111'}}>Enviar</button>
                             <ul className="media-list">
                                 <li className="media">
                                     <div className="post-comment">
@@ -159,6 +168,7 @@ class Blog extends Component<BlogProps, BlogState> {
                             </ul>                   
                         </div>
             </div>
+            <Footer/>
             </>
         );
     }

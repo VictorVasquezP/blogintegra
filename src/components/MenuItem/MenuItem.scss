@@ -17,6 +17,11 @@
         font-size: 1.4rem;
         transition: all 0.5s ease-out;
     }
+
+    .nav-session{
+        color: #fff;
+        cursor: pointer;
+    }
 }
 @media screen and  (max-width: 960px){
     .nav-menu{
