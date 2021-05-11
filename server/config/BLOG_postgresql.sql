@@ -6,7 +6,9 @@ CREATE TABLE USUARIO (
     ID SERIAL   NOT NULL,
     USUARIO TEXT   NOT NULL,
     CORREO TEXT   NOT NULL,
-    PASSWORD TEXT   NOT NULL,
+    PASSWORD TEXT NULL,
+    ID_FACE TEXT NULL,
+    ID_GOOGLE TEXT NULL,
     STATUS INTEGER DEFAULT 1,
     CONSTRAINT PK_USUARIO PRIMARY KEY (ID)
 );
@@ -86,3 +88,7 @@ ALTER TABLE BLOG ADD CONSTRAINT CATEGORIA_BLOG
 INSERT INTO CATEGORIA(NOMBRE) VALUES('Restaurante'),
                                     ('Hotelería'),
                                     ('Facturación');
+
+INSERT INTO usuario(usuario,correo,password,status) VALUES ('Admin','mpoblete501@gmail.com','123456',1);
+
+INSERT INTO preferencias(id_usu,id_cat) VALUES (1,1),(1,2),(2,2),(2,3);

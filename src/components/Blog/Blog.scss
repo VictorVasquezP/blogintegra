@@ -8,6 +8,10 @@
         padding-left: 2em;
         padding-right: 2em;
 
+        .post-header h1{
+          margin-top: 3rem;
+        }
+
         .post-header img{
             width: 100%;
         }
@@ -26,6 +30,12 @@
             font-size: 1em;
             font-weight: normal;
         }
+    }
+
+    .div-social{
+      top: 18%;
+      position: fixed;
+      z-index: 10000;
     }
 
     .post-sidebar{
@@ -320,12 +330,20 @@
 }
 
 @media(max-width: 960px){
-    
     .blog-container{
       grid-template-columns: 100%;
       grid-template-rows: repeat(1fr, 3);
       padding-left: 0em;
       padding-top: 0;
+
+      .post-header{
+        margin-top: 9rem;
+      }
+
+      .div-social{
+        top: 15%;
+      }
+      
 
       .pull-left{
         margin-right: 0.5em;

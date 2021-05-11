@@ -2,6 +2,13 @@ import Cookies from 'cookie-universal';
 
 const cookies = Cookies();
 
+export const createSession = (data: any) =>{
+    cookies.set("_s",data,{
+        path: "/",
+        expires: new Date(new Date().getTime() + 60 * 60 * 1000) 
+    })
+}
+
 export const getSession = () =>{
     return cookies.get("_s") === undefined ? false:cookies.get("_s");
 }
