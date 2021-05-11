@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import './Login.scss';
-import axios from 'axios';
-import Cookies from 'cookie-universal';
-import { getSession } from './../helper/helper'
+import './Login.scss'
+import axios from 'axios'
+import { createSession ,getSession } from './../helper/helper'
 import { History } from 'history'
-import Footer from '../Footer';
-
-const cookies = Cookies();
+import Footer from '../Footer'
+import GoogleLogin from "react-google-login"
+import FacebookLogin from "react-facebook-login"
  
 interface IState {
     usuarioLogin:string,
@@ -21,26 +20,24 @@ interface IState {
     error: boolean
 }
 
-const defaultState: IState = {
-    usuarioLogin:'',
-    passwordLogin:'',
-    usuarioRegister:'',
-    passwordRegister:'',
-    repetPassword:'',
-    email:'',
-    hotel:false,
-    restaurant:false,
-    factura:false,
-    error: false
-};
-
 interface IProps {
     history: History
 }
 
 class Login extends Component<IProps, IState> {
-    state = defaultState;
-    
+    state: IState = {
+        usuarioLogin:'',
+        passwordLogin:'',
+        usuarioRegister:'',
+        passwordRegister:'',
+        repetPassword:'',
+        email:'',
+        hotel:false,
+        restaurant:false,
+        factura:false,
+        error: false
+    }
+
     login = () =>{
         axios.post('http://localhost:3001/api/user/login',{
             usuario: this.state.usuarioLogin,
@@ -48,11 +45,7 @@ class Login extends Component<IProps, IState> {
         })
         .then(res =>{
             if(res.data){
-                cookies.set("_s",res.data,{
-                    path: "/",
-                    expires: new Date(new Date().getTime() + 60 * 60 * 1000) 
-                });
-                
+                createSession(res.data)
                 this.props.history.push("/");
             }else
                 this.setState({error: true})
@@ -60,6 +53,38 @@ class Login extends Component<IProps, IState> {
         })
         .catch(err =>{
             console.log(err);
+        })
+    }
+
+    loginGoogle = (response: any) => {
+        const { profileObj } = response
+        this.loginPlataforma("id_google", profileObj.googleId, profileObj)
+    }
+
+    loginFacebook = (response: any) => {
+        this.loginPlataforma("id_face", response.id, response)
+    }
+
+    loginPlataforma = (name: string, id:string, response: any) =>{
+        axios.get("http://localhost:3001/api/user/search/"+ name +"/"+ id)
+        .then(res =>{
+            if(res.data){
+                createSession(res.data)
+                this.props.history.push("/");
+            }else{
+                axios.post("http://localhost:3001/api/user/insert/id_face",{
+                    usuario: response.name,
+                    email: response.email,
+                    hotel: true,
+                    restaurant: true,
+                    factura: true,
+                    id: id
+                })
+                .then(res =>{
+                    if(res.data) createSession(res.data)
+                    this.props.history.push("/")
+                })
+            }
         })
     }
 
@@ -118,10 +143,31 @@ class Login extends Component<IProps, IState> {
                                 <div className="group">
                                     <input type="submit" className="button" value="Log In" onClick={this.login} />
                                 </div>
-                                <div className="hr"></div>
-                                <div className="foot-lnk">
-                                    <a href="#forgot">¿Olvidaste tu contraseña?</a>
+                                <div className="div-platforms" style={{display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                <GoogleLogin
+                                    clientId="208191597357-faokupivebqifjng4s547monrr7gmq9d.apps.googleusercontent.com"
+                                    onSuccess={this.loginGoogle}
+                                    cookiePolicy={'single_host_origin'}
+                                    render={renderProps => (
+                                        <button className="btnGoogle"  onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                                            <i className="fa fa-google"></i>
+                                            &nbsp;&nbsp;Inicia Sesión con Google
+                                        </button>
+                                    )}
+                                />
+                                <FacebookLogin
+                                    appId="526603395000658"
+                                    autoLoad={false}
+                                    textButton="&nbsp;&nbsp;Inicia Sesión con Facebook"
+                                    fields="name,email,picture"
+                                    callback={this.loginFacebook}
+                                    cssClass="btnFacebook"
+                                    icon="fa fa-facebook"/>
                                 </div>
+                                <div className="hr"></div>
+                                {/* <div className="foot-lnk">
+                                    <a href="#forgot">¿Olvidaste tu contraseña?</a>
+                                </div> */}
                             </div>
                             <div className="sign-up-htm">
                                 <div className="group">

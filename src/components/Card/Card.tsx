@@ -30,7 +30,6 @@ class Card extends Component<IProps, IState> {
         const { blog, classDirection } = this.props;
         return (
             <div className={classDirection}>
-
                 <div className="single-blog timeline">
                     <div className="post-thumb">
                         <img src={blog.imagen} className="img-responsive" alt="IMG12" />

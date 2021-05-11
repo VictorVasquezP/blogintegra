@@ -1,10 +1,21 @@
+const moment = require('moment');
+moment.locale('es-mx');
 const db = require('./../config/db');
 
 exports.login = async (req, res) => {
     const consulta = await db.query(
-        `select id, usuario from usuario where usuario=$1 and password=$2;`,
+        `select id, usuario from usuario where usuario=$1 and password=$2 and id_google IS NULL and id_face IS NULL;`,
         [req.body.usuario, req.body.password]
     );
+    res.status(200).json(consulta.rows[0]);
+}
+
+exports.searchUsuario = async (req, res) =>{
+    const { name, id } = req.params
+    const consulta = await db.query(
+        "select id, usuario from usuario where "+ name +"=$1",
+        [id]
+        );
     res.status(200).json(consulta.rows[0]);
 }
 
@@ -24,12 +35,28 @@ exports.insertUsuario = async (req, res) => {
     }
 }
 
-const insertPrefs = async (idUser, idCat) => {
-    const consulta = await db.query('INSERT INTO PREFERENCIAS(ID_USU, ID_CAT) VALUES($1, $2)', [idUser, idCat]);
+exports.insertUsuarioPlatform = async (req, res) => {
+    const { name } = req.params
+    const { usuario, email, id, hotel, restaurant, factura } = req.body
+    try{
+        const consulta = await db.query(
+        "INSERT INTO usuario(usuario, correo, "+ name +") VALUES ($1, $2, $3)  RETURNING usuario, id",
+        [usuario, email, id]);
+        if(hotel) await  insertPrefs(consulta.rows[0].id, 1)
+        if(restaurant) await insertPrefs(consulta.rows[0].id, 2)
+        if(factura) await insertPrefs(consulta.rows[0].id, 3)
+
+        res.status(200).json(consulta.rows[0]);
+    }catch(error){
+        res.status(500).json(error);
+    }
 }
 
+const insertPrefs = async (idUser, idCat) =>{
+    const consulta = await db.query('INSERT INTO PREFERENCIAS(ID_USU, ID_CAT) VALUES($1, $2)',[idUser, idCat]);
+}
 
-exports.getPreferences = async (req, res) => {
+exports.getPreferences = async (req,res) =>{
     try {
         const consulta = await db.query(
             `SELECT C.NOMBRE FROM PREFERENCIAS P JOIN CATEGORIA C ON P.ID_CAT = C.ID
@@ -50,7 +77,7 @@ exports.getComentarios = async (req, res) => {
     }
     try {
         const result = await db.query(
-            "SELECT * FROM comentario WHERE id_blo = " + req.params.id
+         "SELECT C.*, U.usuario FROM comentario C INNER JOIN usuario U ON C.id_usu = U.id WHERE C.ID_BLO =" + req.params.id + " ORDER BY C.ID DESC"
         );
 
         res.status(200).json(result.rows);
@@ -59,13 +86,16 @@ exports.getComentarios = async (req, res) => {
     }
 }
 
-exports.insertComentario = async c => {
-    try {
-        const conx = await getConnection();
-        const consulta = await conx.query(
-            `INSERT INTO comentario(descripcion, fecha, hora, id_usu, id_blo) VALUES (?, ?, ?, ?, ?)`,
-            [c.descripcion, c.fecha, c.hora, c.idUsu, c.idBlo]);
-    } catch (error) {
+exports.insertComentario = async (req, res) => {
+    try{
+        const { descripcion, idUsu, idBlo } = req.body
+        let fecha = moment().format('L');
+        let hora = moment().format('LT'); 
+        const result = await db.query(
+        `INSERT INTO comentario(descripcion, fecha, hora, id_usu, id_blo) VALUES ($1, $2, $3, $4, $5)`,
+        [descripcion, fecha, hora, idUsu, idBlo]);
+        res.status(200).json(result.rows)
+    }catch(error){
         console.log(error);
     }
 }
@@ -92,6 +122,17 @@ exports.insertBlog = async (req, resp) => {
         console.log(error);
     }
     resp.status(200).json({mensaje: "insertado"});
+}
+
+exports.deleteComentario = async (req, res) => {
+    try{
+        const { id } = req.params;
+        const result = await db.query(
+        `DELETE FROM comentario WHERE id = $1`, [id]);
+        res.status(200).json(result.rows)
+    }catch(error){
+        console.log(error);
+    }
 }
 
 exports.getBlogId = async (req, res) => {
