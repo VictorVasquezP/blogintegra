@@ -88,11 +88,11 @@ class Login extends Component<IProps, IState> {
 
     render() {
         return (
-            <>+
+            <>
             <div className="fondo">
                 <div className="login-wrap">
                     <div className="login-html">
-                        <input id="tab-1" type="radio" name="tab" className="sign-in"/>
+                        <input id="tab-1" type="radio" checked={true} name="tab" className="sign-in"/>
                         <label htmlFor="tab-1" className="tab">Log In</label>
                         <input id="tab-2" type="radio" name="tab" className="sign-up" />
                         <label htmlFor="tab-2" className="tab">Registro</label>

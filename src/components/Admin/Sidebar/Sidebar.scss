@@ -1,0 +1,65 @@
+$drawerWidth:250;
+
+.root{
+    display: 'flex',
+}
+.toolbar {
+    padding-right: 24 // keep right padding when drawer closed
+}
+.toolbarIcon {
+    display: 'flex';
+    align-items: 'center';
+    justify-content: 'flex-end';
+    padding: '0 8px';
+}
+.appBar {
+    z-index: 1000;
+    transition: ease-in 0.5s all;
+    
+}
+.appBarShift {
+    margin-left: $drawerWidth;
+    width: calc(100% - $drawerWidth);
+    transition: ease-in 0.5s all;
+}
+
+.menuButton {
+    margin-right: 36;
+}
+.menuButtonHidden {
+    display: 'none';
+}
+.title {
+    flex-grow: 1;
+}
+
+.drawerPaper {
+    position: 'relative';
+    white-space: 'nowrap';
+    width: $drawerWidth;
+    transition: ease-in 0.5s all;
+}
+
+.drawerPaperClose {
+    overflow-x: 'hidden';
+    transition: ease-in 0.5s all;
+}
+.appBarSpacer,
+.content {
+    flex-grow: 1;
+    height: '100vh';
+    overflow: 'auto';
+}
+.container {
+    padding-top: 4px;
+    padding-bottom:4px;
+}
+.paper {
+    padding: 2px;
+    display: 'flex';
+    overflow: 'auto';
+    flex-direction: 'column';
+}
+.fixedHeight {
+    height: 240;
+}

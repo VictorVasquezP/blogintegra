@@ -86,3 +86,7 @@ ALTER TABLE BLOG ADD CONSTRAINT CATEGORIA_BLOG
 INSERT INTO CATEGORIA(NOMBRE) VALUES('Restaurante'),
                                     ('Hotelería'),
                                     ('Facturación');
+
+INSERT INTO usuario(usuario,correo,password,status) VALUES ('Admin','mpoblete501@gmail.com','123456',1);
+
+INSERT INTO preferencias(id_usu,id_cat) VALUES (1,1),(1,2),(2,2),(2,3);
