@@ -47,10 +47,7 @@ export interface CommentSectionState {
   idUsu: Number;
 }
 
-class CommentSection extends React.Component<
-  CommentSectionProps,
-  CommentSectionState
-> {
+class CommentSection extends React.Component< CommentSectionProps, CommentSectionState > {
   state: CommentSectionState = {
     comentarios: [],
     newComentario: "",

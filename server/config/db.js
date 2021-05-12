@@ -4,7 +4,7 @@ const connection = new postgres.Pool({
     user: "postgres",
     host: "localhost",  
     database: "blog_integra",
-    password: "123",
+    password: "12890",
     port: 5432
 });
 

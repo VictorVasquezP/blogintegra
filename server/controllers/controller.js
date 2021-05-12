@@ -103,8 +103,7 @@ exports.insertComentario = async (req, res) => {
 exports.insertBlog = async (req, resp) => {
     try {
         var aux = JSON.stringify(req.body);
-        console.log("Insert blog " + aux);
-        var date = new Date();
+        var date = moment().format('L');
         var id_cat = 0;
         if(req.body.hotel){
             id_cat = 1;
@@ -116,7 +115,7 @@ exports.insertBlog = async (req, resp) => {
         
         db.query(
         `INSERT INTO blog(titulo, descripcion, fecha, imagen, id_usu, id_cat) VALUES ($1, $2, $3, $4, $5, $6)`,
-        [req.body.titulo,req.body.descripcion,(date.getDay()+"/"+date.getMonth()+"/"+date.getFullYear()),req.body.imagen,req.body.id_usu,id_cat]);
+        [req.body.titulo,req.body.descripcion, date, req.body.imagen, req.body.id_usu, id_cat]);
         
     } catch (error) {
         console.log(error);
