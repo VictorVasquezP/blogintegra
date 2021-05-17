@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 import axios from 'axios';
 import './Blog.scss';
 import mainImg from './../../assets/img/7.jpg';
@@ -164,9 +165,12 @@ class Blog extends Component<BlogProps, IState> {
                             <h3 style={{ color: '#fff', fontSize: 24 }}>Categorías</h3>
                             <div className="categories-container">
                                 <ul className="nav navbar-stacked">
-                                    <li><a href="#">Hotelería</a></li>
+                                    <li><Link to={"/category/" + 1} >Hotelería</Link></li>
+                                    <li><Link to={"/category/" + 2} >Restaurante</Link></li>
+                                    <li><Link to={"/category/" + 3} >Facturación</Link></li>
+                                    {/* <li><a href="#">Hotelería</a></li>
                                     <li><a href="#">Restaurante</a></li>
-                                    <li><a href="#">Facturación</a></li>
+                                    <li><a href="#">Facturación</a></li> */}
                                 </ul>
                             </div>
 

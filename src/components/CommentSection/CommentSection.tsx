@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
-import lastNewsImg from "./../../assets/img/project1.jpg";
+import './CommentSection.scss';
+import defaultImg from '../../assets/img/logoDefault.png';
 import axios from "axios";
 import { getSession } from "../helper/helper";
 
@@ -20,7 +21,7 @@ const Comentario: React.FunctionComponent<ComentarioProps> = ({ com, idUsu, onDe
       {isOver && <i className="fas fa-trash" style={{ float: "right", marginTop: 5, marginRight: 20 }} onClick={() => onDelete(com.id)}></i>}
       <div className="post-comment">
         <a className="pull-left" href="#">
-          <img className="media-object" src={lastNewsImg} alt="" />
+          <img className="media-object" src={com.imagen || defaultImg} alt="" width={52} height={52}/>
         </a>
         <div className="media-body">
           <span>
@@ -60,17 +61,19 @@ class CommentSection extends React.Component< CommentSectionProps, CommentSectio
     if(s) this.setState({ idUsu: s.id })
   }
   
-  getComentario = async () => {
-    let res = await axios.get(
-      "http://localhost:3001/api/comment/" + this.props.idBlog
-    );
-    this.setState({ comentarios: res.data });
+  getComentario = () => {
+    axios.get("http://localhost:3001/api/comment/" + this.props.idBlog)
+    .then(res => this.setState({ comentarios: res.data }))
+    .catch(err => console.log(err))
   };
 
   insertComentario = () => {
     let s = getSession();
     if (!s) {
       alert("Sessión expirada, vuelve a loguearte");
+      return;
+    }else if(this.state.newComentario === ''){
+      alert("Error: Comentario vacío");
       return;
     }
     let params = {

@@ -8,6 +8,8 @@ import Blog from './components/Blog/Blog';
 import Login from './components/Login/Login';
 import PanelPrincipal from './components/Admin/PanelPrincipal';
 import Blogs from './components/Admin/Blogs/Blogs';
+import Profile from "./components/Profile";
+import SectionCategory from './components/SectionCategory';
 
 interface IState {
 }
@@ -27,6 +29,8 @@ class App extends Component<{}, IState> {
             <Route exact path="/Login" component={Login}></Route> 
             <Route exact path="/Admin" component={PanelPrincipal}></Route> 
             <Route exact path="/Blogs" component={Blogs}></Route> 
+            <Route exact path="/profile" component={Profile}></Route> 
+            <Route exact path="/category/:id" component={SectionCategory}></Route> 
           </Switch>
         </BrowserRouter>
       </div>

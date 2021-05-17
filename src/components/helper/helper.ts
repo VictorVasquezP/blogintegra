@@ -1,4 +1,5 @@
 import Cookies from 'cookie-universal';
+import axios from 'axios';
 
 const cookies = Cookies();
 
@@ -17,15 +18,19 @@ export const removeSession = () =>{
     cookies.remove("_s")
 }
 
-export const renovarSession = () =>{
+export const renovarSession = (id: Number) =>{
     const sesion =  getSession();
     if(!sesion){
         window.location.href = "/";
     }
-    cookies.set("_s", sesion, {
-        path: "/",
-        expires: new Date(new Date().getTime() + 60 * 1 * 1000) 
-    });
+    axios.post("http://localhost:3001/api/user/get",{id: id})
+    .then(res =>{
+        if(res.data.usuario){
+            removeSession()
+            createSession(res.data)
+        }
+    })
+    .catch(err => console.log(err))
 
     return sesion;
 }

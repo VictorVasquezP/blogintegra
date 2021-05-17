@@ -1,0 +1,28 @@
+.profile-container{
+    padding-top: 8rem;
+
+    .header{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        img{
+            margin-right: 5px;
+        }
+    }
+
+    .div-file{
+        display: flex;
+        justify-content: center;
+    }
+}
+
+@media screen and  (max-width: 500px){
+    .profile-container{
+        .header{
+            flex-direction: column;
+        }
+        .div-file{
+            flex-direction: column;
+        }
+    }
+}

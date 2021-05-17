@@ -4,7 +4,7 @@ const db = require('./../config/db');
 
 exports.login = async (req, res) => {
     const consulta = await db.query(
-        `select id, usuario,tipo from usuario where usuario=$1 and password=$2 and id_google IS NULL and id_face IS NULL;`,
+        `select id, usuario, imagen from usuario where usuario=$1 and password=$2 and id_google IS NULL and id_face IS NULL;`,
         [req.body.usuario, req.body.password]
     );
     res.status(200).json(consulta.rows[0]);
@@ -13,10 +13,20 @@ exports.login = async (req, res) => {
 exports.searchUsuario = async (req, res) =>{
     const { name, id } = req.params
     const consulta = await db.query(
-        "select id, usuario,tipo from usuario where "+ name +"=$1",
+        "select id, usuario, tipo, imagen from usuario where "+ name +"=$1",
         [id]
         );
     res.status(200).json(consulta.rows[0]);
+}
+
+exports.getUsuario = async (req, res) =>{
+    try {
+        const { id } = req.body;
+        const con = await db.query("SELECT id, usuario, imagen from usuario where id = $1",[id]);
+        res.status(200).json(con.rows[0])
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 exports.insertUsuario = async (req, res) => {
@@ -37,11 +47,11 @@ exports.insertUsuario = async (req, res) => {
 
 exports.insertUsuarioPlatform = async (req, res) => {
     const { name } = req.params
-    const { usuario, email, id, hotel, restaurant, factura } = req.body
+    const { usuario, email, imagen, id, hotel, restaurant, factura } = req.body
     try{
         const consulta = await db.query(
-        "INSERT INTO usuario(usuario, correo, "+ name +",tipo) VALUES ($1, $2, $3,2)  RETURNING usuario, id,tipo",
-        [usuario, email, id]);
+        "INSERT INTO usuario(usuario, correo, imagen, "+ name +") VALUES ($1, $2, $3, $4)  RETURNING usuario, imagen, id",
+        [usuario, email, imagen, id]);
         if(hotel) await  insertPrefs(consulta.rows[0].id, 1)
         if(restaurant) await insertPrefs(consulta.rows[0].id, 2)
         if(factura) await insertPrefs(consulta.rows[0].id, 3)
@@ -68,6 +78,35 @@ exports.getPreferences = async (req,res) =>{
     }
 }
 
+exports.updateUsuario = async (req, res) =>{
+    try {
+        const { id, usuario, imagen } = req.body;
+        const consulta = await db.query("UPDATE usuario SET usuario = $1, imagen = $2 WHERE id = $3",
+        [usuario, imagen, id])
+        res.status(200).json(consulta.rows)
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+exports.updatePassword = async (req,res) =>{
+    try {
+        const { id, newPass, oldPass } = req.body;
+        const con = await db.query("SELECT password, id_face, id_google FROM usuario WHERE id= $1",[id]);
+        if(con.rows[0].id_face !== null || con.rows[0].id_google !== null)
+            return res.status(200).json({code: "Error", msg: "No se puede hacer cambio de contraseña"})
+        else if(con.rows[0].password === oldPass){
+            const consulta = await db.query("UPDATE usuario SET password = $1 WHERE id = $2",
+            [newPass, id])
+            return res.status(200).json(consulta.rows)
+        }else{
+            return res.status(200).json({code: "Error", msg: "Contraseña actual incorrecta"})
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 exports.getComentarios = async (req, res) => {
     if (!req.params.id) {
         res.status(400).json({
@@ -76,10 +115,10 @@ exports.getComentarios = async (req, res) => {
         return;
     }
     try {
+        console.log(req.params.id);
         const result = await db.query(
-         "SELECT C.*, U.usuario FROM comentario C INNER JOIN usuario U ON C.id_usu = U.id WHERE C.ID_BLO =" + req.params.id + " ORDER BY C.ID DESC"
+         "SELECT C.*, U.usuario, U.imagen FROM comentario C INNER JOIN usuario U ON C.id_usu = U.id WHERE C.ID_BLO =$1 ORDER BY C.ID DESC",[req.params.id]
         );
-
         res.status(200).json(result.rows);
     } catch (error) {
         console.log(error);
@@ -163,6 +202,19 @@ exports.getBlogsPublicos = async (req, res) => {
     try {
         const result = await db.query(
             "select g.id, g.imagen, g.titulo as title, g.descripcion as description, g.descripcion_corta as description_corta, g.fecha as date, (SELECT u.usuario from usuario as u WHERE u.id = g.id_usu ) as author, (SELECT c.nombre from categoria as c WHERE c.id = g.id_cat) as category, (select count(*) from comentario as co WHERE co.id_blo = g.id) as comments from blog as g"
+        );
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+exports.getBlogsCategory = async (req,res) =>{
+    try {
+        const { id } = req.params;
+        const result = await db.query(
+            "select g.id, g.imagen, g.titulo as title, g.descripcion as description, g.fecha as date, (SELECT u.usuario from usuario as u WHERE u.id = g.id_usu ) as author, (SELECT c.nombre from categoria as c WHERE c.id = g.id_cat) as category, (select count(*) from comentario as co WHERE co.id_blo = g.id) as comments from blog as g" +
+            " WHERE id_cat=$1",[id]
         );
         res.status(200).json(result.rows);
     } catch (error) {

@@ -58,23 +58,24 @@ class Login extends Component<IProps, IState> {
 
     loginGoogle = (response: any) => {
         const { profileObj } = response
-        this.loginPlataforma("id_google", profileObj.googleId, profileObj)
+        this.loginPlataforma("id_google", profileObj.googleId, profileObj.imageUrl, profileObj)
     }
 
     loginFacebook = (response: any) => {
-        this.loginPlataforma("id_face", response.id, response)
+        this.loginPlataforma("id_face", response.id, response.picture.data.url, response)
     }
 
-    loginPlataforma = (name: string, id:string, response: any) =>{
+    loginPlataforma = (name: string, id:string, imageUrl: string, response: any) =>{
         axios.get("http://localhost:3001/api/user/search/"+ name +"/"+ id)
         .then(res =>{
             if(res.data){
                 createSession(res.data)
                 this.props.history.push("/");
             }else{
-                axios.post("http://localhost:3001/api/user/insert/id_face",{
+                axios.post("http://localhost:3001/api/user/insert/" + name,{
                     usuario: response.name,
                     email: response.email,
+                    imagen: imageUrl,
                     hotel: true,
                     restaurant: true,
                     factura: true,
