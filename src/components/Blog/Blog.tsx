@@ -12,6 +12,7 @@ import {
     FacebookShareButton, FacebookIcon, WhatsappShareButton, WhatsappIcon, LinkedinShareButton, LinkedinIcon,
     TwitterShareButton, TwitterIcon
 } from "react-share";
+import ReactQuill from 'react-quill';
 
 export interface BlogProps {
     history: History
@@ -105,9 +106,12 @@ class Blog extends Component<BlogProps, IState> {
                             <img style={{ width: '80%' }} src={imagen} className="img-responsive" alt="" />
                         </div>
                         <div className="overflow">
-                            <p>
-                                {descripcion}
-                            </p>
+                            <ReactQuill
+                                style={{}}
+                                theme="bubble"
+                                value={descripcion}
+                                readOnly={true}
+                            />
                             <div className="author-profile padding">
                                 <div className="row">
                                     <div className="col-sm-2">

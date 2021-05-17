@@ -13,10 +13,11 @@ interface IState {
     blogs: [
         {
             id: number,
-            imagen:string,
+            imagen: string,
             title: string,
             author: string,
             description: string,
+            description_corta: string,
             date: string,
             comments: number,
             category: string
@@ -97,10 +98,11 @@ class SectionCards extends Component<IProps, IState> {
         blogs: [
             {
                 id: 0,
-                imagen:'',
+                imagen: '',
                 title: '',
                 author: '',
                 description: '',
+                description_corta: '',
                 date: '',
                 comments: 0,
                 category: ''
@@ -142,6 +144,18 @@ class SectionCards extends Component<IProps, IState> {
 
     render() {
         const { blogs } = this.state;
+        let mostrarBlog;
+        if(blogs.length > 0){
+            mostrarBlog = blogs.map((blog, i) => {
+                if (this.isPreference(blog.category))
+                    return <Card key={blog.id}
+                        blog={blog}
+                        classDirection={i % 2 == 0 ? 'card arrow-left' : 'card arrow-right'}
+                    />
+            });
+        }else{
+            mostrarBlog = "Sin datos";
+        }
         return (
             <>
                 <Navbar />
@@ -153,15 +167,9 @@ class SectionCards extends Component<IProps, IState> {
                                     <a href="#" className="btn-common">November 2013</a>
                                 </div>
                                 <div className="timeline-divider">
-                                    {
-                                        blogs.map((blog, i) => {
-                                            if (this.isPreference(blog.category))
-                                                return <Card key={blog.id}
-                                                    blog={blog}
-                                                    classDirection={i % 2 == 0 ? 'card arrow-left' : 'card arrow-right'}
-                                                />
-                                        })
-                                    }
+
+                                    {mostrarBlog}
+
                                 </div>
                             </div>
                         </div>

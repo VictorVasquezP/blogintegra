@@ -6,7 +6,7 @@ import { TransitionProps } from '@material-ui/core/transitions';
 import Icon from '@material-ui/core/Icon';
 import axios from 'axios';
 import Cookies from 'cookie-universal';
-
+import ReactQuill from 'react-quill';
 
 const cookies = Cookies();
 
@@ -24,7 +24,8 @@ interface IState {
   titulo: string,
   descripcion: string,
   file: string,
-  bandera: boolean
+  bandera: boolean,
+  descCorta:string
 }
 const defaultState: IState = {
   catg1: false,
@@ -34,6 +35,7 @@ const defaultState: IState = {
   descripcion: '',
   file: '',
   bandera: false,
+  descCorta:''
 };
 
 
@@ -43,6 +45,7 @@ interface IProps {
   data: {
     titulo: string,
     descripcion: string,
+    descripcion_corta:string,
     fecha: string,
     id: number,
     id_cat: number,
@@ -64,7 +67,8 @@ export default class Editar extends Component<IProps, IState>{
       titulo: this.props.data.titulo,
       descripcion: this.props.data.descripcion,
       file: this.props.data.imagen,
-      bandera: true
+      bandera: true,
+      descCorta:this.props.data.descripcion_corta
     };
   }
 
@@ -73,6 +77,7 @@ export default class Editar extends Component<IProps, IState>{
       this.setState({ titulo: this.props.data.titulo });
       this.setState({ descripcion: this.props.data.descripcion });
       this.setState({ file: this.props.data.imagen });
+      this.setState({ descCorta: this.props.data.descripcion_corta });
       switch (this.props.data.id_cat) {
         case 1:
           this.setState({ catg1: true });
@@ -114,6 +119,7 @@ export default class Editar extends Component<IProps, IState>{
       {
         titulo: this.state.titulo,
         descripcion: this.state.descripcion,
+        descCorta: this.state.descCorta,
         imagen: this.state.file,
         hotel: this.state.catg1,
         restaurante: this.state.catg2,
@@ -164,10 +170,14 @@ export default class Editar extends Component<IProps, IState>{
     this.setState({ titulo: event.target.value });
   };
 
-  obtenerDesc = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    console.log(event.target.value);
-    this.setState({ descripcion: event.target.value });
+  obtenerDesc = (value: string) => {
+    this.setState({ descripcion: value });
   };
+
+  obtenerDescCorta = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    this.setState({ descCorta: event.target.value });
+  };
+
 
   obtenerFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const img = await this.convertBase64(event.target.files.item(0));
@@ -187,8 +197,32 @@ export default class Editar extends Component<IProps, IState>{
 
   render() {
 
-    let { file, catg1, catg2, catg3, titulo, descripcion } = this.state;
-
+    let { file, catg1, catg2, catg3, titulo, descripcion,descCorta } = this.state;
+    let modules = {
+      toolbar: [
+        [{ 'header': '1' }, { 'header': '2' }, { font: [''] }],
+        [{ size: [''] }],
+        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' },
+        { 'indent': '-1' }, { 'indent': '+1' }],
+        ['link', 'image', 'video'],
+        ['clean']
+      ],
+      clipboard: {
+        // toggle to add extra line breaks when pasting HTML:
+        matchVisual: false,
+      }
+    }
+    /* 
+     * Quill editor formats
+     * See https://quilljs.com/docs/formats/
+     */
+    let formats = [
+      'header', 'font', 'size',
+      'bold', 'italic', 'underline', 'strike', 'blockquote',
+      'list', 'bullet', 'indent',
+      'link', 'image', 'video'
+    ]
     return (
       <div>
         <Dialog fullScreen open={this.props.open} onClose={this.handleClose} TransitionComponent={Transition}>
@@ -204,17 +238,29 @@ export default class Editar extends Component<IProps, IState>{
           </AppBar>
           <List>
             <ListItem button>
-              <TextField style={{ width: '50%', margin: 'auto' }} value={titulo} name="titulo" onChange={this.obtenerTitulo} id="titulo" label="Título" variant="outlined" />
+              <TextField style={{ width: '60%', margin: 'auto' }} value={titulo} name="titulo" onChange={this.obtenerTitulo} id="titulo" label="Título" variant="outlined" />
 
             </ListItem>
             <ListItem button>
-              <textarea style={{ width: '50%', margin: 'auto' }}
+              <textarea style={{ width: '60%', margin: 'auto' }}
                 name="desc" id="desc"
-                onChange={this.obtenerDesc}
-                rows={10}
+                onChange={this.obtenerDescCorta}
+                rows={5}
                 cols={30}
-                placeholder="Descripción"
-                defaultValue={descripcion}
+                placeholder="Descripción corta"
+                defaultValue={descCorta}
+              />
+            </ListItem>
+            <ListItem button>
+              <ReactQuill
+                style={{ width: '60%', margin: 'auto' }}
+                theme="snow"
+                value={descripcion}
+                onChange={this.obtenerDesc}
+                modules={modules}
+                formats={formats}
+                placeholder="Escribir el cuerpo del blog"
+
               />
             </ListItem>
             <ListItem button style={{ display: 'flex', justifyContent: 'center' }}>

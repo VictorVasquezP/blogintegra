@@ -4,7 +4,7 @@ const db = require('./../config/db');
 
 exports.login = async (req, res) => {
     const consulta = await db.query(
-        `select id, usuario from usuario where usuario=$1 and password=$2 and id_google IS NULL and id_face IS NULL;`,
+        `select id, usuario,tipo from usuario where usuario=$1 and password=$2 and id_google IS NULL and id_face IS NULL;`,
         [req.body.usuario, req.body.password]
     );
     res.status(200).json(consulta.rows[0]);
@@ -13,7 +13,7 @@ exports.login = async (req, res) => {
 exports.searchUsuario = async (req, res) =>{
     const { name, id } = req.params
     const consulta = await db.query(
-        "select id, usuario from usuario where "+ name +"=$1",
+        "select id, usuario,tipo from usuario where "+ name +"=$1",
         [id]
         );
     res.status(200).json(consulta.rows[0]);
@@ -22,7 +22,7 @@ exports.searchUsuario = async (req, res) =>{
 exports.insertUsuario = async (req, res) => {
     try {
         const consulta = await db.query(
-            `INSERT INTO usuario(usuario, correo, password) VALUES ($1, $2, $3)  RETURNING id`,
+            `INSERT INTO usuario(usuario, correo, password,tipo) VALUES ($1, $2, $3,2)  RETURNING id`,
             [req.body.usuario, req.body.email, req.body.password]);
 
         if (req.body.hotel) await insertPrefs(consulta.rows[0].id, 1)
@@ -40,7 +40,7 @@ exports.insertUsuarioPlatform = async (req, res) => {
     const { usuario, email, id, hotel, restaurant, factura } = req.body
     try{
         const consulta = await db.query(
-        "INSERT INTO usuario(usuario, correo, "+ name +") VALUES ($1, $2, $3)  RETURNING usuario, id",
+        "INSERT INTO usuario(usuario, correo, "+ name +",tipo) VALUES ($1, $2, $3,2)  RETURNING usuario, id,tipo",
         [usuario, email, id]);
         if(hotel) await  insertPrefs(consulta.rows[0].id, 1)
         if(restaurant) await insertPrefs(consulta.rows[0].id, 2)
@@ -102,7 +102,7 @@ exports.insertComentario = async (req, res) => {
 
 exports.insertBlog = async (req, resp) => {
     try {
-        var aux = JSON.stringify(req.body);
+        
         var date = moment().format('L');
         var id_cat = 0;
         if(req.body.hotel){
@@ -114,8 +114,8 @@ exports.insertBlog = async (req, resp) => {
         }
         
         db.query(
-        `INSERT INTO blog(titulo, descripcion, fecha, imagen, id_usu, id_cat) VALUES ($1, $2, $3, $4, $5, $6)`,
-        [req.body.titulo,req.body.descripcion, date, req.body.imagen, req.body.id_usu, id_cat]);
+        `INSERT INTO blog(titulo, descripcion,descripcion_corta, fecha, imagen, id_usu, id_cat) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+        [req.body.titulo,req.body.descripcion,req.body.descCorta, date, req.body.imagen, req.body.id_usu, id_cat]);
         
     } catch (error) {
         console.log(error);
@@ -162,7 +162,7 @@ exports.getBlogs = async (req, res) => {
 exports.getBlogsPublicos = async (req, res) => {
     try {
         const result = await db.query(
-            "select g.id, g.imagen, g.titulo as title, g.descripcion as description, g.fecha as date, (SELECT u.usuario from usuario as u WHERE u.id = g.id_usu ) as author, (SELECT c.nombre from categoria as c WHERE c.id = g.id_cat) as category, (select count(*) from comentario as co WHERE co.id_blo = g.id) as comments from blog as g"
+            "select g.id, g.imagen, g.titulo as title, g.descripcion as description, g.descripcion_corta as description_corta, g.fecha as date, (SELECT u.usuario from usuario as u WHERE u.id = g.id_usu ) as author, (SELECT c.nombre from categoria as c WHERE c.id = g.id_cat) as category, (select count(*) from comentario as co WHERE co.id_blo = g.id) as comments from blog as g"
         );
         res.status(200).json(result.rows);
     } catch (error) {
@@ -182,8 +182,8 @@ exports.updateBlog = async (req, res) => {
         }
 
         const result = await db.query(
-            "UPDATE blog set titulo = $1, descripcion = $2, imagen = $3, id_cat = $4 WHERE id = $5",
-            [req.body.titulo,req.body.descripcion,req.body.imagen,id_cat,req.body.id]
+            "UPDATE blog set titulo = $1, descripcion = $2, descripcion_corta =$3, imagen = $4, id_cat = $5 WHERE id = $6",
+            [req.body.titulo,req.body.descripcion,req.body.descCorta,req.body.imagen,id_cat,req.body.id]
         );
         console.log(result);
         res.status(200).json(result);

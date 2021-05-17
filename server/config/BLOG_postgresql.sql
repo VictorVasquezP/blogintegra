@@ -10,6 +10,7 @@ CREATE TABLE USUARIO (
     ID_FACE TEXT NULL,
     ID_GOOGLE TEXT NULL,
     STATUS INTEGER DEFAULT 1,
+    TIPO INTEGER NULL,
     CONSTRAINT PK_USUARIO PRIMARY KEY (ID)
 );
 
@@ -56,6 +57,7 @@ CREATE TABLE BLOG (
     ID SERIAL   NOT NULL,
     TITULO TEXT   NOT NULL,
     DESCRIPCION TEXT   NOT NULL,
+    DESCRIPCION_CORTA TEXT   NOT NULL,
     FECHA TEXT   NOT NULL,
     IMAGEN TEXT   NOT NULL,
     ID_USU INTEGER   NOT NULL,
@@ -89,6 +91,6 @@ INSERT INTO CATEGORIA(NOMBRE) VALUES('Restaurante'),
                                     ('Hotelería'),
                                     ('Facturación');
 
-INSERT INTO usuario(usuario,correo,password,status) VALUES ('Admin','mpoblete501@gmail.com','123456',1);
+INSERT INTO usuario(usuario,correo,password,status,tipo) VALUES ('Admin','mpoblete501@gmail.com','123456',1,1);
 
 INSERT INTO preferencias(id_usu,id_cat) VALUES (1,1),(1,2),(2,2),(2,3);

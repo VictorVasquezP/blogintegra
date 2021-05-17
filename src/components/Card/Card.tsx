@@ -18,6 +18,7 @@ interface IProps {
         title: string,
         author: string,
         description: string,
+        description_corta:string,
         date: string,
         comments: number,
         category: string
@@ -26,6 +27,16 @@ interface IProps {
 }
 class Card extends Component<IProps, IState> {
     state = defaultState;
+
+    dateImg = (fecha:string) => {
+        var formato = fecha.split('/');
+        var day = formato[0];
+        console.log(day);
+        var mes = Number.parseInt(formato[1]);
+        var meses = ['Ene', 'Feb', 'Maz', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+        return <a href="#" style={{ textAlign: 'center', fontSize: 22 }} >{day} <br /><small>{meses[mes-1]}</small></a>;
+      }
+
     render() {
         const { blog, classDirection } = this.props;
         return (
@@ -35,7 +46,7 @@ class Card extends Component<IProps, IState> {
                         <img src={blog.imagen} className="img-responsive" alt="IMG12" />
                         <div className="post-overlay">
                             <span>
-                                <a href="#">11 <br /><small>Feb</small></a>
+                                {this.dateImg(blog.date)}
                             </span>
                         </div>
                     </div>
@@ -49,7 +60,7 @@ class Card extends Component<IProps, IState> {
                             </Link>
                         </h2>
                         <h3 className="post-author"><a href="#">{blog.author}</a></h3>
-                        <p>{blog.description}</p>
+                        {blog.description_corta} ...
                         <Link to={{
                             pathname: "/blog",
                             state: { id: blog.id }

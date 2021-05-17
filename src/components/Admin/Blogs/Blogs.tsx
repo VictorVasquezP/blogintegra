@@ -22,6 +22,7 @@ interface IState {
     data: {
         titulo: string,
         descripcion: string,
+        descripcion_corta:string,
         fecha: string,
         id: number,
         id_cat: number,
@@ -39,6 +40,7 @@ const defaultState: IState = {
     data: {
         titulo: '',
         descripcion: '',
+        descripcion_corta:'',
         fecha: '',
         id: 0,
         id_cat: 0,

@@ -17,8 +17,9 @@ interface IState {
   interface IProps {
       clicked: boolean;
       session: {
-        id: number,  
-        usuario: string
+        id: number,
+        usuario: string,
+        tipo:number
       };
   }
 
@@ -46,12 +47,17 @@ class MenuItem extends React.Component<IProps, IState> {
     }
 
     render() {
-
+        let option;
+        if(this.props.session.tipo == 1){
+            option = <li><a href="/Admin" className="nav-links">Admin</a></li>;
+        }
+            
+        
         if(this.props.session.id !== -1){
             return(
                 <ul className={this.props.clicked ? 'nav-menu active' : 'nav-menu'}>
                     <li><a href="/" className="nav-links">Blog</a></li>
-                    <li><a href="/Admin" className="nav-links">Admin</a></li>
+                    {option}
                     <li className="nav-session">{this.props.session.usuario}</li>
                     <li className="nav-session" onClick={this.cerrarSesion}>Cerrar Sesión</li>
                 </ul>

@@ -10,6 +10,7 @@ import PersonPinIcon from '@material-ui/icons/PersonPin';
 import FolderIcon from '@material-ui/icons/Folder';
 
 import './Detalles.scss';
+import ReactQuill from 'react-quill';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & { children?: React.ReactElement },
@@ -33,6 +34,7 @@ interface IProps {
   data: {
     titulo: string,
     descripcion: string,
+    descripcion_corta:string,
     fecha: string,
     id: number,
     id_cat: number,
@@ -98,7 +100,21 @@ export default class Detalles extends Component<IProps, IState>{
                   <CommentIcon />
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText primary="Descripción" secondary={this.props.data.descripcion} secondaryTypographyProps={{ color: 'inherit' }} />
+              <ListItemText primary="Descripción corta" secondary={this.props.data.descripcion_corta} />
+            </ListItem>
+            <Divider variant="inset" component="li" />
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar className="avatar">
+                  <CommentIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary="Descripción" secondary={<ReactQuill
+                                style={{}}
+                                theme="bubble"
+                                value={this.props.data.descripcion}
+                                readOnly={true}
+                            />} secondaryTypographyProps={{ color: 'inherit' }} />
             </ListItem>
             <Divider variant="inset" component="li" />
             <ListItem>

@@ -10,7 +10,8 @@ interface IState {
   clicked : boolean;
   session: {
     id: number,
-    usuario: string
+    usuario: string,
+    tipo:number
   };
 }
 
@@ -20,7 +21,8 @@ const defaultState: IState = {
   clicked:false,
   session: {
     id: -1,
-    usuario: ''
+    usuario: '',
+    tipo:-1
   }
 };
 

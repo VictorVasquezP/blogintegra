@@ -5,6 +5,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { TransitionProps } from '@material-ui/core/transitions';
 import axios from 'axios';
 import Cookies from 'cookie-universal';
+import ReactQuill from 'react-quill';
 
 
 const cookies = Cookies();
@@ -24,7 +25,8 @@ interface IState {
   descripcion: string,
   file: string,
   open: boolean,
-  usuario:string
+  usuario: string,
+  descCorta: string
 }
 const defaultState: IState = {
   catg1: false,
@@ -34,7 +36,8 @@ const defaultState: IState = {
   descripcion: '',
   file: '',
   open: false,
-  usuario: cookies.get("_s") ? cookies.get("_s").usuario: 'Anónimo'
+  usuario: cookies.get("_s") ? cookies.get("_s").usuario : 'Anónimo',
+  descCorta: ''
 };
 
 
@@ -74,6 +77,7 @@ export default class Registro extends Component<IProps, IState>{
       {
         titulo: this.state.titulo,
         descripcion: this.state.descripcion,
+        descCorta: this.state.descCorta,
         imagen: this.state.file,
         hotel: this.state.catg1,
         restaurante: this.state.catg2,
@@ -112,10 +116,14 @@ export default class Registro extends Component<IProps, IState>{
     this.setState({ titulo: event.target.value });
   };
 
-  obtenerDesc = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    console.log(event.target.value);
-    this.setState({ descripcion: event.target.value });
+  obtenerDesc = (value: string) => {
+    this.setState({ descripcion: value });
   };
+
+  obtenerDescCorta = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    this.setState({ descCorta: event.target.value });
+  };
+
   obtenerFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
 
     const img = await this.convertBase64(event.target.files.item(0));
@@ -135,22 +143,50 @@ export default class Registro extends Component<IProps, IState>{
     });
   }
 
-  obtenerDate = () =>{
+  obtenerDate = () => {
     var date = new Date();
     return date.toLocaleDateString();
   }
 
-  dateImg = () =>{
+  dateImg = () => {
     var date = new Date();
     var day = date.toLocaleDateString().split('/')[0];
     console.log(day);
     var mes = date.getMonth();
-    var meses = ['Ene','Feb','Maz','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-    return <a href="#" style={{textAlign:'center', fontSize:22}} >{day} <br /><small>{meses[mes]}</small></a>;
+    var meses = ['Ene', 'Feb', 'Maz', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+    return <a href="#" style={{ textAlign: 'center', fontSize: 22 }} >{day} <br /><small>{meses[mes]}</small></a>;
   }
-  
+
   render() {
-    let { open, file, catg1, catg2, catg3,titulo,descripcion,usuario } = this.state;
+    let { open, file, catg1, catg2, catg3, titulo, descripcion, usuario } = this.state;
+
+
+
+    let modules = {
+      toolbar: [
+        [{ 'header': '1' }, { 'header': '2' }, { font: [''] }],
+        [{ size: [''] }],
+        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' },
+        { 'indent': '-1' }, { 'indent': '+1' }],
+        ['link', 'image', 'video'],
+        ['clean']
+      ],
+      clipboard: {
+        // toggle to add extra line breaks when pasting HTML:
+        matchVisual: false,
+      }
+    }
+    /* 
+     * Quill editor formats
+     * See https://quilljs.com/docs/formats/
+     */
+    let formats = [
+      'header', 'font', 'size',
+      'bold', 'italic', 'underline', 'strike', 'blockquote',
+      'list', 'bullet', 'indent',
+      'link', 'image', 'video'
+    ]
 
     return (
       <div>
@@ -170,18 +206,30 @@ export default class Registro extends Component<IProps, IState>{
           </AppBar>
           <List>
             <ListItem button>
-              <TextField style={{ width: '50%', margin: 'auto' }} name="titulo" onChange={this.obtenerTitulo} id="titulo" label="Título" variant="outlined" />
+              <TextField style={{ width: '60%', margin: 'auto' }} name="titulo" onChange={this.obtenerTitulo} id="titulo" label="Título" variant="outlined" />
 
             </ListItem>
             <ListItem button>
 
-              <textarea style={{ width: '50%', margin: 'auto' }}
+              <textarea style={{ width: '60%', margin: 'auto' }}
                 name="desc" id="desc"
-                onChange={this.obtenerDesc}
-                rows={10}
+                onChange={this.obtenerDescCorta}
+                rows={5}
                 cols={30}
-                placeholder="Descripción"
+                placeholder="Descripción corta"
                 defaultValue=""
+              />
+            </ListItem>
+            <ListItem button>
+              <ReactQuill
+                style={{ width: '60%', margin: 'auto' }}
+                theme="snow"
+                value={descripcion}
+                onChange={this.obtenerDesc}
+                modules={modules}
+                formats={formats}
+                placeholder="Escribir el cuerpo del blog"
+
               />
             </ListItem>
             <ListItem button style={{ display: 'flex', justifyContent: 'center' }}>
@@ -231,28 +279,33 @@ export default class Registro extends Component<IProps, IState>{
               </Button>
             </ListItem>
           </List>
-          <h2 style={{textAlign:'center'}}>Previsualización</h2>
-          <div className="single-blog timeline" style={{width:'50%'}}>
+          <h2 style={{ textAlign: 'center' }}>Previsualización</h2>
+          <div className="single-blog timeline" style={{ width: '50%' }}>
             <div className="post-thumb">
-            {file.length >0 &&
+              {file.length > 0 &&
                 <img src={file} className="img-responsive" alt="IMG12" />
-              
-            }
-                <div className="post-overlay">
-                    <span>
-                        {this.dateImg()}
-                    </span>
-                </div>
+
+              }
+              <div className="post-overlay">
+                <span>
+                  {this.dateImg()}
+                </span>
+              </div>
             </div>
             <div className="post-content">
-                <h2 className="post-title"><a href="#">{titulo}</a></h2>
-                <h3 className="post-author"><a href="#">{usuario}</a></h3>
-                <p>{descripcion}</p>
-                <a href="#" className="read-more">Leer más</a>
-                <div className="post-bottom">
-                    <span className="post-date pull-left">{this.obtenerDate()}</span>
-                    <span className="comments-number pull-right"><a href="#">{0} comentarios</a></span>
-                </div>
+              <h2 className="post-title"><a href="#">{titulo}</a></h2>
+              <h3 className="post-author"><a href="#">{usuario}</a></h3>
+              <ReactQuill
+                style={{ width: '80%', margin: 'auto' }}
+                theme="bubble"
+                value={descripcion}
+                readOnly={true}
+              />
+              <a href="#" className="read-more">Leer más</a>
+              <div className="post-bottom">
+                <span className="post-date pull-left">{this.obtenerDate()}</span>
+                <span className="comments-number pull-right"><a href="#">{0} comentarios</a></span>
+              </div>
             </div>
           </div>
         </Dialog>
