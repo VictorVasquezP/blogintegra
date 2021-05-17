@@ -1,20 +1,16 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import './PanelPrincipal.scss';
 import Sidebar from './Sidebar/Sidebar';
-interface IState {
 
-}
+interface IState {  }
 
-const defaultState: IState = {
+const defaultState: IState = {  };
 
-};
+interface IProps { }
 
-interface IProps {
-
-}
 class PanelPrincipal extends Component<IProps, IState> {
     state = defaultState;
+
     render() {
         return (
             <div>

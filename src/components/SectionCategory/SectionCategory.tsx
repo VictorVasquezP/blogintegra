@@ -16,6 +16,7 @@ export interface IState {
         title: string,
         author: string,
         description: string,
+        description_corta:string,
         date: string,
         comments: number,
         category: string
@@ -29,6 +30,7 @@ class SectionCategory extends React.Component<IProps, IState> {
         title: '',
         author: '',
         description: '',
+        description_corta: '',
         date: '',
         comments: 0,
         category: ''

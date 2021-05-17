@@ -57,7 +57,7 @@ class MenuItem extends React.Component<IProps, IState> {
             return(
                 <ul className={this.props.clicked ? 'nav-menu active' : 'nav-menu'}>
                     <li><a href="/" className="nav-links">Blog</a></li>
-                    <li><a href="/Admin" className="nav-links">Admin</a></li>
+                    {option}
                     <li className="nav-session"><Link style={{color: "#fff"}} to="/profile">{this.props.session.usuario}</Link></li>
                     <li className="nav-session" onClick={this.cerrarSesion}>Cerrar Sesión</li>
                 </ul>
